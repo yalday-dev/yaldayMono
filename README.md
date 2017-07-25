@@ -1,4 +1,5 @@
 # yaldayMono
+<<<<<<< HEAD
 
 This application was generated using JHipster 3.10.0, you can find documentation and help at [https://jhipster.github.io/documentation-archive/v3.10.0](https://jhipster.github.io/documentation-archive/v3.10.0).
 
@@ -108,3 +109,6 @@ To set up a CI environment, consult the [Setting up Continuous Integration][] pa
 [Karma]: http://karma-runner.github.io/
 [Jasmine]: http://jasmine.github.io/2.0/introduction.html
 [Protractor]: https://angular.github.io/protractor/
+=======
+Yalday App
+>>>>>>> b6b40111c375b81096d153a8f252e4c8120fcd77
