@@ -27,14 +27,20 @@ spring:
             uri: mongodb://localhost:27017
             database: yaldayMono
     mail:
-        host: localhost
-        port: 25
-        username:
-        password:
-    messages:
-        cache-seconds: 1
-    thymeleaf:
-        cache: false
+        host: smtp.gmail.com
+        port: 587
+        username: yaldayteam@gmail.com
+        password: yalday2017
+        protocol: smtp
+        tls: true
+        properties.mail.smtp:
+            auth: true
+            starttls.enable: true
+            ssl.trust: smtp.gmail.com
+        messages:
+            cache-seconds: 1
+        thymeleaf:
+            cache: false
 
 server:
     port: 8080
@@ -49,7 +55,7 @@ jhipster:
             # security key (this key should be unique for your application, and kept secret)
             key: ef6a5915d71383f7755884d698e72c15395f7b0f
     mail: # specific JHipster mail property, for standard properties see MailProperties
-        from: yaldayMono@localhost
+        from: yaldayteam@gmail.com
     metrics: # DropWizard Metrics configuration, used by MetricsConfiguration
         jmx.enabled: true
         spark:
