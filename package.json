@@ -63,5 +63,9 @@
   },
   "scripts": {
     "test": "gulp test"
+  },
+  "dependencies": {
+    "devextreme": "^17.1.6",
+    "devextreme-angular": "^17.1.6"
   }
 }

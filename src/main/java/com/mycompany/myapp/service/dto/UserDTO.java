@@ -5,7 +5,9 @@ import com.mycompany.myapp.config.Constants;
 import com.mycompany.myapp.domain.Authority;
 import com.mycompany.myapp.domain.User;
 
+import com.mycompany.myapp.domain.enumeration.Type;
 import org.hibernate.validator.constraints.Email;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import javax.validation.constraints.*;
 import java.util.Set;
@@ -35,6 +37,8 @@ public class UserDTO {
     @Size(min = 2, max = 5)
     private String langKey;
 
+    private Type usertype;
+
     private Set<String> authorities;
 
     public UserDTO() {
@@ -42,13 +46,13 @@ public class UserDTO {
 
     public UserDTO(User user) {
         this(user.getLogin(), user.getFirstName(), user.getLastName(),
-            user.getEmail(), user.getActivated(), user.getLangKey(),
+            user.getEmail(), user.getActivated(), user.getLangKey(), user.getusertype(),
             user.getAuthorities().stream().map(Authority::getName)
                 .collect(Collectors.toSet()));
     }
 
     public UserDTO(String login, String firstName, String lastName,
-        String email, boolean activated, String langKey, Set<String> authorities) {
+        String email, boolean activated, String langKey, Type usertype, Set<String> authorities) {
 
         this.login = login;
         this.firstName = firstName;
@@ -56,6 +60,7 @@ public class UserDTO {
         this.email = email;
         this.activated = activated;
         this.langKey = langKey;
+        this.usertype = usertype;
         this.authorities = authorities;
     }
 
@@ -83,6 +88,8 @@ public class UserDTO {
         return langKey;
     }
 
+    public Type getUsertype() {return usertype; }
+
     public Set<String> getAuthorities() {
         return authorities;
     }
@@ -96,6 +103,7 @@ public class UserDTO {
             ", email='" + email + '\'' +
             ", activated=" + activated +
             ", langKey='" + langKey + '\'' +
+            ", usertype='" + usertype + '\'' +
             ", authorities=" + authorities +
             "}";
     }

@@ -42,6 +42,7 @@ import java.util.stream.Collectors;
  * <li>We want to keep a lazy association between the user and the authorities, because people will
  * quite often do relationships with the user, and we don't want them to get the authorities all
  * the time for nothing (for performance reasons). This is the #1 goal: we should not impact our users'
+ *
  * application because of this use-case.</li>
  * <li> Not having an outer join causes n+1 requests to the database. This is not a real issue as
  * we have by default a second-level cache. This means on the first HTTP call we do the n+1 requests,
@@ -132,7 +133,7 @@ public class UserResource {
         }
         userService.updateUser(managedUserVM.getId(), managedUserVM.getLogin(), managedUserVM.getFirstName(),
             managedUserVM.getLastName(), managedUserVM.getEmail(), managedUserVM.isActivated(),
-            managedUserVM.getLangKey(), managedUserVM.getAuthorities());
+            managedUserVM.getLangKey(), managedUserVM.getUsertype(),managedUserVM.getAuthorities());
 
         return ResponseEntity.ok()
             .headers(HeaderUtil.createAlert("userManagement.updated", managedUserVM.getLogin()))
@@ -141,7 +142,7 @@ public class UserResource {
 
     /**
      * GET  /users : get all users.
-     * 
+     *
      * @param pageable the pagination information
      * @return the ResponseEntity with status 200 (OK) and with body all users
      * @throws URISyntaxException if the pagination headers couldn't be generated

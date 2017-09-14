@@ -21,6 +21,9 @@ import java.util.Locale;
 import java.util.Set;
 import java.time.ZonedDateTime;
 
+import com.mycompany.myapp.domain.enumeration.Type;
+
+
 /**
  * A user.
  */
@@ -71,6 +74,10 @@ public class User extends AbstractAuditingEntity implements Serializable {
 
     @Field("reset_date")
     private ZonedDateTime resetDate = null;
+
+    @Field("usertype")
+    private Type usertype;
+
 
     @JsonIgnore
     private Set<Authority> authorities = new HashSet<>();
@@ -172,6 +179,15 @@ public class User extends AbstractAuditingEntity implements Serializable {
         this.authorities = authorities;
     }
 
+    public Type getusertype() { return usertype;}
+
+    public User usertype(Type usertype){
+        this.usertype = usertype;
+        return this;
+    }
+
+    public void setUsertype(Type usertype) { this.usertype = usertype; }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -205,6 +221,7 @@ public class User extends AbstractAuditingEntity implements Serializable {
             ", activated='" + activated + '\'' +
             ", langKey='" + langKey + '\'' +
             ", activationKey='" + activationKey + '\'' +
+            ", usertype='" + usertype + '\'' +
             "}";
     }
 }

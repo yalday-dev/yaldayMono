@@ -9,6 +9,7 @@ import com.mycompany.myapp.security.AuthoritiesConstants;
 import com.mycompany.myapp.security.SecurityUtils;
 import com.mycompany.myapp.service.util.RandomUtil;
 import com.mycompany.myapp.web.rest.vm.ManagedUserVM;
+import com.mycompany.myapp.domain.enumeration.Type;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -19,6 +20,8 @@ import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import javax.inject.Inject;
 import java.util.*;
+
+import static com.mycompany.myapp.domain.enumeration.Type.merchant;
 
 /**
  * Service class for managing users.
@@ -85,7 +88,7 @@ public class UserService {
     }
 
     public User createUser(String login, String password, String firstName, String lastName, String email,
-        String langKey) {
+        String langKey, Type userType) {
 
         User newUser = new User();
         Authority authority = authorityRepository.findOne(AuthoritiesConstants.USER);
@@ -104,6 +107,7 @@ public class UserService {
         newUser.setActivationKey(RandomUtil.generateActivationKey());
         authorities.add(authority);
         newUser.setAuthorities(authorities);
+        newUser.setUsertype(userType);
         userRepository.save(newUser);
         log.debug("Created Information for User: {}", newUser);
         return newUser;
@@ -115,6 +119,8 @@ public class UserService {
         user.setFirstName(managedUserVM.getFirstName());
         user.setLastName(managedUserVM.getLastName());
         user.setEmail(managedUserVM.getEmail());
+        user.setUsertype(managedUserVM.getUsertype());
+
         if (managedUserVM.getLangKey() == null) {
             user.setLangKey("en"); // default language
         } else {
@@ -137,19 +143,20 @@ public class UserService {
         return user;
     }
 
-    public void updateUser(String firstName, String lastName, String email, String langKey) {
+    public void updateUser(String firstName, String lastName, String email, String langKey, Type userType) {
         userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).ifPresent(u -> {
             u.setFirstName(firstName);
             u.setLastName(lastName);
             u.setEmail(email);
             u.setLangKey(langKey);
+            u.setUsertype(userType);
             userRepository.save(u);
             log.debug("Changed Information for User: {}", u);
         });
     }
 
     public void updateUser(String id, String login, String firstName, String lastName, String email,
-        boolean activated, String langKey, Set<String> authorities) {
+        boolean activated, String langKey, Type userType, Set<String> authorities) {
 
         Optional.of(userRepository
             .findOne(id))
@@ -160,6 +167,7 @@ public class UserService {
                 u.setEmail(email);
                 u.setActivated(activated);
                 u.setLangKey(langKey);
+                u.setUsertype(userType);
                 Set<Authority> managedAuthorities = u.getAuthorities();
                 managedAuthorities.clear();
                 authorities.stream().forEach(

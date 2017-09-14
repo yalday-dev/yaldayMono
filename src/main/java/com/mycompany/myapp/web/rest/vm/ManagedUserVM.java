@@ -6,6 +6,8 @@ import java.util.Set;
 
 import com.mycompany.myapp.domain.User;
 import com.mycompany.myapp.service.dto.UserDTO;
+import com.mycompany.myapp.domain.enumeration.Type;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -44,9 +46,9 @@ public class ManagedUserVM extends UserDTO {
     }
 
     public ManagedUserVM(String id, String login, String password, String firstName, String lastName,
-                         String email, boolean activated, String langKey, Set<String> authorities,
+                         String email, boolean activated, String langKey, Type userType, Set<String> authorities,
                          String createdBy, ZonedDateTime createdDate, String lastModifiedBy, ZonedDateTime lastModifiedDate) {
-        super(login, firstName, lastName, email, activated, langKey, authorities);
+        super(login, firstName, lastName, email, activated, langKey, userType, authorities);
         this.id = id;
         this.createdBy = createdBy;
         this.createdDate = createdDate;
